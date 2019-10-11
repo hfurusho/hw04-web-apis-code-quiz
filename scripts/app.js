@@ -6,21 +6,38 @@ function startQuiz() {
   // TODO: SHOW QUESTIONS CARD. Add "d-none" to .questions-card
   // $("#questions-card").addClass("d-block");
 
-  TODOname(1);
+  getNextQuestion(1);
   startTimer();
 
-  function TODOname(questionNum) {
+  function getNextQuestion(questionNum) {
     let question = questions[questionNum - 1];
     $("#question").text(question.question);
 
     let choiceButtons = $(".choice-btn");
     choiceButtons.each(function(i) {
       $(this).text(question.choices[i]);
+      if (questionNum != question.length) {
+        $(this).on("click", function() {
+          checkAnswer($(this).text(), question.answer);
+          getNextQuestion(questionNum + 1);
+        });
+      } else {
+        return; // TODO: END GAME. SHOW SCORE
+      }
     });
 
-    // for (let i = 0; i < choiceButtons.length; i++) {
-    //   choiceButtons[i].text(question.choices[i]);
-    // }
+    function checkAnswer(choiceSelected, answer) {
+      let answerIndicatorEle = $("#answer-indicator");
+      // TODO: make indicator fade? Add green/red colors
+      if (choiceSelected === answer) {
+        answerIndicatorEle.text("Correct!");
+      } else {
+        let timeCurr = $("#timeRem").text();
+        console.log(timeCurr);
+        answerIndicatorEle.text("Wrong!");
+        $("#timeRem").text(parseInt(timeCurr, 10) - 15);
+      }
+    }
   }
 
   function startTimer() {
