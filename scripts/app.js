@@ -1,4 +1,10 @@
+let currentQuestion = 1;
+
 $("#start-btn").on("click", startQuiz);
+$(".choice-btn").on("click", function(i) {
+  //console.log($(this).text);
+  checkAnswer($(this).text(), questions[currentQuestion - 1].answer);
+});
 
 // Starts the quiz by hiding the start-card, showing the questions card, and beginning the timer.
 function startQuiz() {
@@ -9,37 +15,6 @@ function startQuiz() {
   getNextQuestion(1);
   startTimer();
 
-  function getNextQuestion(questionNum) {
-    let question = questions[questionNum - 1];
-    $("#question").text(question.question);
-
-    let choiceButtons = $(".choice-btn");
-    choiceButtons.each(function(i) {
-      $(this).text(question.choices[i]);
-      if (questionNum != question.length) {
-        $(this).on("click", function() {
-          checkAnswer($(this).text(), question.answer);
-          getNextQuestion(questionNum + 1);
-        });
-      } else {
-        return; // TODO: END GAME. SHOW SCORE
-      }
-    });
-
-    function checkAnswer(choiceSelected, answer) {
-      let answerIndicatorEle = $("#answer-indicator");
-      // TODO: make indicator fade? Add green/red colors
-      if (choiceSelected === answer) {
-        answerIndicatorEle.text("Correct!");
-      } else {
-        let timeCurr = $("#timeRem").text();
-        console.log(timeCurr);
-        answerIndicatorEle.text("Wrong!");
-        $("#timeRem").text(parseInt(timeCurr, 10) - 15);
-      }
-    }
-  }
-
   function startTimer() {
     let timerInterval = setInterval(timeCountdown, 1000);
     let totalTime = questions.length * 15;
@@ -48,8 +23,8 @@ function startQuiz() {
     // Reduces the time remaining and ends the game when the timer reaches 0;
     // TODO: stop game if all questions answered.
     function timeCountdown() {
-      let timeCurr = $("#timeRem").text();
-      if (timeCurr === "0") {
+      let timeCurr = parseInt($("#timeRem").text(), 10);
+      if (timeCurr <= 0) {
         $("#timeRem").text("Times Up!");
         // TODO: FUNCTION TO STOP THE GAME
         clearInterval(timerInterval);
@@ -58,6 +33,31 @@ function startQuiz() {
       }
     }
   }
+}
+
+function getNextQuestion(questionNum) {
+  let question = questions[questionNum - 1];
+  $("#question").text(question.question);
+
+  let choiceButtons = $(".choice-btn");
+  choiceButtons.each(function(i) {
+    $(this).text(question.choices[i]);
+  });
+}
+
+function checkAnswer(choiceSelected, answer) {
+  let answerIndicatorEle = $("#answer-indicator");
+  // TODO: make indicator fade? Add green/red colors
+  if (choiceSelected === answer) {
+    answerIndicatorEle.text("Correct!");
+  } else {
+    let timeCurr = $("#timeRem").text();
+    console.log(timeCurr);
+    answerIndicatorEle.text("Wrong!");
+    $("#timeRem").text(parseInt(timeCurr, 10) - 15);
+  }
+  currentQuestion++;
+  getNextQuestion(currentQuestion);
 }
 
 // Takes an array and outputs the array with the contents shuffled.
