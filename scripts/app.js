@@ -12,37 +12,40 @@ function startQuiz() {
   // TODO: SHOW QUESTIONS CARD. Add "d-none" to .questions-card
   // $("#questions-card").addClass("d-block");
 
-  getNextQuestion(1);
+  getNextQuestion();
   startTimer();
-
-  function startTimer() {
-    let timerInterval = setInterval(timeCountdown, 1000);
-    let totalTime = questions.length * 15;
-    $("#timeRem").text(totalTime);
-
-    // Reduces the time remaining and ends the game when the timer reaches 0;
-    // TODO: stop game if all questions answered.
-    function timeCountdown() {
-      let timeCurr = parseInt($("#timeRem").text(), 10);
-      if (timeCurr <= 0) {
-        $("#timeRem").text("Times Up!");
-        // TODO: FUNCTION TO STOP THE GAME
-        clearInterval(timerInterval);
-      } else {
-        $("#timeRem").text(parseInt(timeCurr, 10) - 1);
-      }
-    }
-  }
 }
 
-function getNextQuestion(questionNum) {
-  let question = questions[questionNum - 1];
-  $("#question").text(question.question);
+function startTimer() {
+  let timerInterval = setInterval(timeCountdown, 1000);
+  let totalTime = questions.length * 15;
+  $("#timeRem").text(totalTime);
 
-  let choiceButtons = $(".choice-btn");
-  choiceButtons.each(function(i) {
-    $(this).text(question.choices[i]);
-  });
+  // Reduces the time remaining and ends the game when the timer reaches 0;
+  // TODO: stop game if all questions answered.
+  function timeCountdown() {
+    let timeCurr = parseInt($("#timeRem").text(), 10);
+    if (timeCurr <= 0 || currentQuestion - 1 == questions.length) {
+      displayEndCard();
+      clearInterval(timerInterval);
+    } else {
+      $("#timeRem").text(parseInt(timeCurr, 10) - 1);
+    }
+  }
+  return timerInterval;
+}
+
+function getNextQuestion() {
+  if (currentQuestion - 1 != questions.length) {
+    let question = questions[currentQuestion - 1];
+    $("#question").text(question.question);
+
+    let choiceButtons = $(".choice-btn");
+    choiceButtons.each(function(i) {
+      $(this).text(question.choices[i]);
+    });
+  } else {
+  }
 }
 
 function checkAnswer(choiceSelected, answer) {
@@ -52,12 +55,33 @@ function checkAnswer(choiceSelected, answer) {
     answerIndicatorEle.text("Correct!");
   } else {
     let timeCurr = $("#timeRem").text();
-    console.log(timeCurr);
     answerIndicatorEle.text("Wrong!");
     $("#timeRem").text(parseInt(timeCurr, 10) - 15);
   }
   currentQuestion++;
-  getNextQuestion(currentQuestion);
+  getNextQuestion();
+}
+
+function displayEndCard() {
+  // $("#questions-card").addClass("d-none");
+  // TODO: Add "d-none" to .end-card in html
+  // $("#end-card").addClass("d-block");
+  let score = $("#timeRem").text();
+  $("#score").text(score);
+}
+
+$("#submit-score-btn").on("click", function(event) {
+  event.preventDefault();
+  submitScore();
+});
+
+function submitScore() {
+  let score = $("#score").text();
+  let initials = $("#inputInitials")
+    .val()
+    .toUpperCase();
+  let entry = { initials: initials, score: score };
+  localStorage.setItem("Quiz High Scores", JSON.stringify(entry));
 }
 
 // Takes an array and outputs the array with the contents shuffled.

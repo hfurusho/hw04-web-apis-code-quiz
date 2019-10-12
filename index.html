@@ -82,7 +82,7 @@
           </div>
           <div class="end-card border p-3" id="end-card">
             <h3>All done!</h3>
-            <p>Your score is <span class="score">0</span></p>
+            <p>Your score is <span id="score">0</span></p>
             <form>
               <div class="form-group row">
                 <label for="inputInitials" class="col-sm-3 col-form-label"
@@ -94,10 +94,15 @@
                     class="form-control"
                     id="inputInitials"
                     placeholder="ABC"
+                    maxlength="3"
                   />
                 </div>
                 <div class="col-sm-3">
-                  <button type="submit" class="btn btn-primary my-2">
+                  <button
+                    type="submit"
+                    class="btn btn-primary my-2 my-sm-0"
+                    id="submit-score-btn"
+                  >
                     Submit Score
                   </button>
                 </div>
