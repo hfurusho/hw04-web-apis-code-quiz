@@ -15,14 +15,16 @@
   </head>
   <body>
     <header class="container-fluid clearfix">
-      <a href="#" class="view-highscores float-left">View Highscores</a>
+      <a href="#" class="view-highscores float-left" id="view-highscores-link"
+        >View Highscores</a
+      >
       <p class="timer float-right">Time: <span id="timeRem">0</span></p>
     </header>
 
     <div class="container">
       <div class="row">
         <div class="col-sm-12">
-          <div class="start-card border p-3 d-none" id="start-card">
+          <div class="start-card border p-3 d-block" id="start-card">
             <h2 class="text-center">Lorem Ipsum Quiz Challenge</h2>
             <p class="instructions">
               loremLorem ipsum dolor sit amet, consectetur adipiscing elit. Duis
@@ -80,7 +82,7 @@
               <!-- TODO: Delete placeholder -->
             </div>
           </div>
-          <div class="end-card border p-3" id="end-card">
+          <div class="end-card border p-3 d-none" id="end-card">
             <h3>All done!</h3>
             <p>Your score is <span id="score">0</span></p>
             <form>
@@ -110,7 +112,7 @@
               </div>
             </form>
           </div>
-          <div class="highscores-card border p-3">
+          <div class="highscores-card border p-3 d-none" id="highscores-card">
             <h3>Highscores</h3>
             <div class="highscore-content w-25">
               <ul class="list-group list-group-flush" id="highscores">
@@ -131,6 +133,13 @@
                   </div>
                 </li>
               </ul>
+              <button
+                type="button"
+                class="btn btn-primary btn-lg return-btn w-100 my-2"
+                id="return-btn"
+              >
+                Return to Start
+              </button>
             </div>
           </div>
         </div>

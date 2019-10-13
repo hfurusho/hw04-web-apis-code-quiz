@@ -1,31 +1,51 @@
 // TODO: Dont let score go lower than 0.
-
 let currentQuestion = 1;
 let highscoresArr = JSON.parse(localStorage.getItem("Quiz Highscores"));
 
 $("#start-btn").on("click", startQuiz);
+
 $(".choice-btn").on("click", function(i) {
-  //console.log($(this).text);
   checkAnswer($(this).text(), questions[currentQuestion - 1].answer);
 });
 
+$("#submit-score-btn").on("click", function(event) {
+  event.preventDefault();
+  submitScore();
+  populateHighscores();
+  showHighscores();
+});
+
+$("#return-btn").on("click", function() {
+  $("#highscores-card").addClass("d-none");
+  $("#highscores-card").removeClass("d-block");
+
+  $("#start-card").addClass("d-block");
+  $("#start-card").removeClass("d-none");
+});
+
+$("#view-highscores-link").on("click", showHighscores);
+
+populateHighscores();
+
 // Starts the quiz by hiding the start-card, showing the questions card, and beginning the timer.
 function startQuiz() {
-  // $("#start-card").addClass("d-none");
+  $("#start-card").addClass("d-none");
+  $("#start-card").removeClass("d-block");
   // TODO: SHOW QUESTIONS CARD. Add "d-none" to .questions-card
-  // $("#questions-card").addClass("d-block");
+  $("#questions-card").addClass("d-block");
+  $("#questions-card").removeClass("d-none");
 
   getNextQuestion();
   startTimer();
 }
 
+// Sets the total time and begins the timer.
 function startTimer() {
   let timerInterval = setInterval(timeCountdown, 1000);
   let totalTime = questions.length * 15;
   $("#timeRem").text(totalTime);
 
   // Reduces the time remaining and ends the game when the timer reaches 0;
-  // TODO: stop game if all questions answered.
   function timeCountdown() {
     let timeCurr = parseInt($("#timeRem").text(), 10);
     if (timeCurr <= 0 || currentQuestion - 1 == questions.length) {
@@ -35,9 +55,9 @@ function startTimer() {
       $("#timeRem").text(parseInt(timeCurr, 10) - 1);
     }
   }
-  return timerInterval;
 }
 
+// Populates the question card's with the question and choices.
 function getNextQuestion() {
   if (currentQuestion - 1 != questions.length) {
     let question = questions[currentQuestion - 1];
@@ -47,10 +67,10 @@ function getNextQuestion() {
     choiceButtons.each(function(i) {
       $(this).text(question.choices[i]);
     });
-  } else {
   }
 }
 
+// Checks if the choice selected is the answer and advances to the next question.
 function checkAnswer(choiceSelected, answer) {
   let answerIndicatorEle = $("#answer-indicator");
   // TODO: make indicator fade? Add green/red colors
@@ -65,20 +85,18 @@ function checkAnswer(choiceSelected, answer) {
   getNextQuestion();
 }
 
+// Displays and populates the end card.
 function displayEndCard() {
-  // $("#questions-card").addClass("d-none");
+  $("#questions-card").addClass("d-none");
+  $("#questions-card").removeClass("d-block");
   // TODO: Add "d-none" to .end-card in html
-  // $("#end-card").addClass("d-block");
+  $("#end-card").addClass("d-block");
+  $("#end-card").removeClass("d-none");
   let score = $("#timeRem").text();
   $("#score").text(score);
-}
 
-$("#submit-score-btn").on("click", function(event) {
-  event.preventDefault();
-  submitScore();
-  populateHighscores();
-  showHighscores();
-});
+  currentQuesiton = 1;
+}
 
 function submitScore() {
   let score = $("#score").text();
@@ -96,9 +114,12 @@ function submitScore() {
 }
 
 function sortHighscores(entry1, entry2) {
-  if (entry1.score > entry2.score) {
+  let score1 = parseInt(entry1.score);
+  let score2 = parseInt(entry2.score);
+
+  if (score1 > score2) {
     return -1;
-  } else if (entry1.score < entry2.score) {
+  } else if (score1 < score2) {
     return 1;
   }
 }
@@ -120,12 +141,16 @@ function populateHighscores() {
     });
   }
 }
-populateHighscores(); // TODO: REMOVE
 
+// Hides both the start card or end card and displays the top 5 highscores
 function showHighscores() {
   $("#start-card").addClass("d-none");
+  $("#start-card").removeClass("d-block");
   $("#end-card").addClass("d-none");
+  $("#end-card").removeClass("d-block");
   $("#highscores-card").addClass("d-block");
+  $("#highscores-card").removeClass("d-none");
+  populateHighscores();
 }
 
 // Takes an array and outputs the array with the contents shuffled.
