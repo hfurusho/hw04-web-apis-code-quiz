@@ -22,7 +22,7 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-12">
-          <div class="start-card border p-3" id="start-card">
+          <div class="start-card border p-3 d-none" id="start-card">
             <h2 class="text-center">Lorem Ipsum Quiz Challenge</h2>
             <p class="instructions">
               loremLorem ipsum dolor sit amet, consectetur adipiscing elit. Duis
@@ -40,7 +40,7 @@
               Start
             </button>
           </div>
-          <div class="questions-card border p-3" id="questions-card">
+          <div class="questions-card border p-3 d-none" id="questions-card">
             <p id="question">
               loremLorem ipsum dolor sit amet, consectetur adipiscing elit. Duis
               eget tellus massa. Proin neque neque, vestibulum a finibus sed,
@@ -95,6 +95,7 @@
                     id="inputInitials"
                     placeholder="ABC"
                     maxlength="3"
+                    required
                   />
                 </div>
                 <div class="col-sm-3">
@@ -108,6 +109,29 @@
                 </div>
               </div>
             </form>
+          </div>
+          <div class="highscores-card border p-3">
+            <h3>Highscores</h3>
+            <div class="highscore-content w-25">
+              <ul class="list-group list-group-flush" id="highscores">
+                <li class="list-group-item">
+                  <div class="highscore-initals d-inline-block float-left">
+                    ABC
+                  </div>
+                  <div class="highscore-score d-inline-block float-right">
+                    30
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <div class="highscore-initals d-inline-block float-left">
+                    DEF
+                  </div>
+                  <div class="highscore-score d-inline-block float-right">
+                    29
+                  </div>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>

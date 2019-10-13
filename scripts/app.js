@@ -1,4 +1,7 @@
+// TODO: Dont let score go lower than 0.
+
 let currentQuestion = 1;
+let highscoresArr = JSON.parse(localStorage.getItem("Quiz Highscores"));
 
 $("#start-btn").on("click", startQuiz);
 $(".choice-btn").on("click", function(i) {
@@ -73,6 +76,8 @@ function displayEndCard() {
 $("#submit-score-btn").on("click", function(event) {
   event.preventDefault();
   submitScore();
+  populateHighscores();
+  showHighscores();
 });
 
 function submitScore() {
@@ -81,7 +86,46 @@ function submitScore() {
     .val()
     .toUpperCase();
   let entry = { initials: initials, score: score };
-  localStorage.setItem("Quiz High Scores", JSON.stringify(entry));
+
+  if (!highscoresArr) {
+    highscoresArr = [];
+  }
+  highscoresArr.push(entry);
+  highscoresArr.sort(sortHighscores).splice(5);
+  localStorage.setItem("Quiz Highscores", JSON.stringify(highscoresArr));
+}
+
+function sortHighscores(entry1, entry2) {
+  if (entry1.score > entry2.score) {
+    return -1;
+  } else if (entry1.score < entry2.score) {
+    return 1;
+  }
+}
+
+function populateHighscores() {
+  $("#highscores").empty();
+  if (highscoresArr) {
+    highscoresArr.forEach(function(highscore, i) {
+      let li = $("<li class='list-group-item'>");
+      let divInitials = $("<div>");
+      divInitials.addClass("highscore-initals d-inline-block float-left");
+      let divScore = $("<div>");
+      divScore.addClass("highscore-score d-inline-block float-right");
+      divInitials.text(i + 1 + ". " + highscore.initials);
+      divScore.text(highscore.score);
+      li.append(divInitials);
+      li.append(divScore);
+      $("#highscores").append(li);
+    });
+  }
+}
+populateHighscores(); // TODO: REMOVE
+
+function showHighscores() {
+  $("#start-card").addClass("d-none");
+  $("#end-card").addClass("d-none");
+  $("#highscores-card").addClass("d-block");
 }
 
 // Takes an array and outputs the array with the contents shuffled.
