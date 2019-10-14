@@ -13,6 +13,7 @@
     />
     <link rel="stylesheet" href="./assets/css/styles.css" />
   </head>
+
   <body>
     <header class="container-fluid clearfix">
       <a href="#" class="view-highscores float-left" id="view-highscores-link"
@@ -21,10 +22,10 @@
       <p class="timer float-right">Time: <span id="timeRem">0</span></p>
     </header>
 
-    <div class="container">
+    <div class="container border shadow rounded" id="main">
       <div class="row">
         <div class="col-sm-12">
-          <div class="start-card border p-3 d-block" id="start-card">
+          <div class="start-card p-3 d-block" id="start-card">
             <h2 class="text-center">Lorem Ipsum Quiz Challenge</h2>
             <p class="instructions">
               loremLorem ipsum dolor sit amet, consectetur adipiscing elit. Duis
@@ -34,15 +35,17 @@
               nisl consectetur, dapibus ligula in, consequat sem. Vestibulum
               commodo lacus sed libero efficitur, at mollis leo rhoncus.
             </p>
-            <button
-              type="button"
-              class="btn btn-primary btn-lg start-btn w-25 mx-auto"
-              id="start-btn"
-            >
-              Start
-            </button>
+            <div class="d-flex justify-content-center">
+              <button
+                type="button"
+                class="btn btn-primary btn-lg start-btn w-25 mx-auto"
+                id="start-btn"
+              >
+                Start
+              </button>
+            </div>
           </div>
-          <div class="questions-card border p-3 d-none" id="questions-card">
+          <div class="questions-card p-3 d-none" id="questions-card">
             <p id="question">
               loremLorem ipsum dolor sit amet, consectetur adipiscing elit. Duis
               eget tellus massa. Proin neque neque, vestibulum a finibus sed,
@@ -78,17 +81,17 @@
                 Choice 4
               </button>
             </div>
-            <div id="answer-indicator">
-              <!-- TODO: Delete placeholder -->
-            </div>
+            <div id="answer-indicator"></div>
           </div>
-          <div class="end-card border p-3 d-none" id="end-card">
-            <h3>All done!</h3>
-            <p>Your score is <span id="score">0</span></p>
+          <div class="end-card p-3 d-none" id="end-card">
+            <h3 class="text-center">All Done!</h3>
+            <p>Your score is <span id="score">0</span>.</p>
             <form>
               <div class="form-group row">
-                <label for="inputInitials" class="col-sm-3 col-form-label"
-                  >Your Initials</label
+                <label
+                  for="inputInitials"
+                  class="col-sm-3 col-form-label text-sm-right"
+                  >Your Initials:</label
                 >
                 <div class="col-sm-6">
                   <input
@@ -112,27 +115,10 @@
               </div>
             </form>
           </div>
-          <div class="highscores-card border p-3 d-none" id="highscores-card">
-            <h3>Highscores</h3>
-            <div class="highscore-content w-25">
-              <ul class="list-group list-group-flush" id="highscores">
-                <li class="list-group-item">
-                  <div class="highscore-initals d-inline-block float-left">
-                    ABC
-                  </div>
-                  <div class="highscore-score d-inline-block float-right">
-                    30
-                  </div>
-                </li>
-                <li class="list-group-item">
-                  <div class="highscore-initals d-inline-block float-left">
-                    DEF
-                  </div>
-                  <div class="highscore-score d-inline-block float-right">
-                    29
-                  </div>
-                </li>
-              </ul>
+          <div class="highscores-card p-3 d-none" id="highscores-card">
+            <h3 class="text-center">Top 5 Highscores</h3>
+            <div class="highscore-content">
+              <ul class="list-group list-group-flush" id="highscores"></ul>
               <button
                 type="button"
                 class="btn btn-primary btn-lg return-btn w-100 my-2"
