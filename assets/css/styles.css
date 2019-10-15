@@ -11,3 +11,8 @@
   max-width: 300px;
   margin: 0 auto;
 }
+
+.choice-btn {
+  min-width: 50%;
+  text-align: left;
+}
