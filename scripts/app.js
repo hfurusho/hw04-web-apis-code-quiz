@@ -75,18 +75,23 @@ function getNextQuestion() {
 // Checks if the choice selected is the answer and advances to the next question.
 function checkAnswer(choiceSelected, answer) {
   let answerIndicatorEle = $("#answer-indicator");
-  // TODO: make indicator fade? Add green/red colors
+  answerIndicatorEle.css("display", "inline-block");
   if (choiceSelected === answer) {
     answerIndicatorEle.text("Correct!");
+    answerIndicatorEle.removeClass();
+    answerIndicatorEle.addClass("correct");
   } else {
     let timeCurr = $("#timeRem").text();
     answerIndicatorEle.text("Wrong!");
+    answerIndicatorEle.removeClass();
+    answerIndicatorEle.addClass("wrong");
     if (timeCurr < 15) {
       $("#timeRem").text(0);
     } else {
       $("#timeRem").text(parseInt(timeCurr, 10) - 15);
     }
   }
+  $("#answer-indicator").fadeOut(1000);
   currentQuestion++;
   getNextQuestion();
 }

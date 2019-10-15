@@ -36,3 +36,17 @@ body {
   min-width: 50%;
   text-align: left;
 }
+
+#answer-indicator,
+.indicator-placeholder {
+  font-weight: bolder;
+  font-size: 2em;
+}
+
+.correct {
+  color: green;
+}
+
+.wrong {
+  color: red;
+}
